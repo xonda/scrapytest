@@ -12,17 +12,19 @@ class TodaysRacesSpider(scrapy.Spider):
                                  callback=self.parse_race)
 
     def parse_race(self, response):
-        def extract_with_css(query):
-            return response.css(query).extract()
+        def get(query):
+            return response.css(query).extract_first()
+
+        horses = {}
+        for horse in response.css('.horse-datafields'):
+            name = horse.css('div.horse-information-name::text').extract_first(),
+            uid = horse.css('a.bet_now_btn::attr(data-selection-id)').extract_first(),
+            odds = horse.css('a.bet_now_btn::text').extract_first()
+            horses[name] = {'uid': uid, 'odds': odds}
 
         yield {
-            'track': extract_with_css('div.event-name::text')[6:],
-            'start': extract_with_css('div.event-countdown::attr(data-start-date-time)'),
-            'uid': extract_with_css('ul.racecard::attr(data-event-id)'),
-            # 'participants': extract_with_css('div.horse-information-name::text'),
-            'participants': {
-                extract_with_css('div.horse-information-name::text'),
-                extract_with_css('span.recent_form::text'),
-
-            },
+            'track': get('div.event-name::text')[6:],
+            'start': get('div.event-countdown::attr(data-start-date-time)'),
+            'uid': get('ul.racecard::attr(data-event-id)'),
+            'horses': horses
         }
