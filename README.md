@@ -1,3 +1,6 @@
+todays_races.sh runs 'todays' spyder replacing file
+
+
 Test task:
 
 Using the framework Scrapy (https://scrapy.org/), you need to implement data collection 
