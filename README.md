@@ -1,4 +1,4 @@
-todays_races.sh runs 'todays' spyder replacing file
+todays_races.sh runs 'todays' spider replacing file
 
 
 Test task:
